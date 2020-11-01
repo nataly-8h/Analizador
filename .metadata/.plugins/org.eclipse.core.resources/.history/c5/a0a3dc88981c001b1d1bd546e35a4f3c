@@ -257,53 +257,10 @@ public class Analizador {
 	private void chomsky(HashSet<String> orgGenerators) {
 		HashSet<String> letras = new HashSet<String>();
 		abc(letras, this.genOrder.size());
-		
-		Hashtable<String, String> newGene = new Hashtable<String, String>(); //para reutilizar generadores K - valor del generador V - llave del generador
-		
-		for (int i = 0; i < this.genOrder.size(); i++) {
-			for (int j = 0; j < this.grammar.get(this.genOrder.get(i)).size(); j++) {
-				String[] expre =  this.grammar.get(this.genOrder.get(i)).get(j).split(""); // hacer lista de cada elemento de una expresion generada
-				if(expre.length == 1) {
-					
-				}else {
-					for (int k = 0; k < expre.length; k++) {
-						if(Character.isLowerCase(expre[k].charAt(0))) {
-							if(!newGene.containsKey(expre[k])) {
-								String genName = "";
-								for (String posible : letras) { //genera una letra para el nuevo generador
-									if(!orgGenerators.contains(posible)) {
-										genName = posible;
-										orgGenerators.add(posible);
-									}
-								}
-								//agregar el generador y cambiarlo en la expresion
-								String newExpr = "";
-								for (int l = 0; l < expre.length; l++) {
-									if(l != k) {
-										newExpr = newExpr + expre[l];
-									}else {
-										newExpr = newExpr + genName;
-									}
-								}
-								//this.grammar.get(this.genOrder.get(i)) = newExpr;
-								this.grammar.get(this.genOrder.get(i)).remove(j);
-								this.grammar.get(this.genOrder.get(i)).add(newExpr);
-								System.out.println(newExpr);
-								ArrayList<String> temp = new ArrayList<String>();
-								temp.add(expre[k]);
-								this.grammar.put(genName, temp);
-								System.out.println(this.grammar);
-							}
-						}
-					}
-				}
-
-			}
-		}
 	}
 	
 	public void abc(HashSet<String> abc, int gNum) {
-		if(gNum < 15) { // si la cantidad de generadores es menor a la mitad de las letras en un abecedario
+		if(gNum < 15) {
 			for (char ch = 'A'; ch <= 'Z'; ++ch) {
 				abc.add(String.valueOf(ch));
 			}
@@ -313,7 +270,7 @@ public class Analizador {
 				abc.add(String.valueOf(ch) + "" + String.valueOf(ch));
 			}
 		}
-		//System.out.println(abc.toString());
+		System.out.println(abc.toString());
 	}
 
 

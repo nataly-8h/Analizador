@@ -268,32 +268,7 @@ public class Analizador {
 				}else {
 					for (int k = 0; k < expre.length; k++) {
 						if(Character.isLowerCase(expre[k].charAt(0))) {
-							if(!newGene.containsKey(expre[k])) {
-								String genName = "";
-								for (String posible : letras) { //genera una letra para el nuevo generador
-									if(!orgGenerators.contains(posible)) {
-										genName = posible;
-										orgGenerators.add(posible);
-									}
-								}
-								//agregar el generador y cambiarlo en la expresion
-								String newExpr = "";
-								for (int l = 0; l < expre.length; l++) {
-									if(l != k) {
-										newExpr = newExpr + expre[l];
-									}else {
-										newExpr = newExpr + genName;
-									}
-								}
-								//this.grammar.get(this.genOrder.get(i)) = newExpr;
-								this.grammar.get(this.genOrder.get(i)).remove(j);
-								this.grammar.get(this.genOrder.get(i)).add(newExpr);
-								System.out.println(newExpr);
-								ArrayList<String> temp = new ArrayList<String>();
-								temp.add(expre[k]);
-								this.grammar.put(genName, temp);
-								System.out.println(this.grammar);
-							}
+							
 						}
 					}
 				}

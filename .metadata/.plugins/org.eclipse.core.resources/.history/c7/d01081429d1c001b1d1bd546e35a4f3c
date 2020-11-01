@@ -329,7 +329,7 @@ public class Analizador {
 	public static void main(String[] args) {
 		String oa = "S→ASB A→aAS|a|ß B→SbS|A|bb";
 		String gramatica = "S→(S)|SS|ß D→5";
-		String pruebaInutiles = "S→aS|A|C A→a B→aa C→aCb";
+		String pruebaInutiles = "S→aSa|A|C A→a B→aa C→aCb";
 		String prueba = "S→aA|B|D A→aA|bA|B B→b|ß C→abd";
 		Analizador a = new Analizador(pruebaInutiles);
 	}

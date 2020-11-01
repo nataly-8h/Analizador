@@ -3,11 +3,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
 
 public class Analizador {
 	public String[] gramatica;
 	public ArrayList<String> terminals,
-							 genOrder;
+	genOrder;
 	//public Hashtable<String, String> generators;
 
 	public Hashtable<String, ArrayList<String>> grammar;
@@ -16,17 +21,13 @@ public class Analizador {
 	public Analizador(String gramatic) {
 		int generadores = 0;
 		this.gramatica = gramatic.split("");
-		
-		HashSet<String> orgGenerators = new HashSet<String>();
 		//this.generators = new Hashtable<String, String>();
-		
 		this.terminals = new ArrayList<String>();
 		this.genOrder = new ArrayList<String>();
 
 		//obtencion de generadores de la gramatica
 		for(int i = 0; i < gramatica.length -1; i++) {
 			if(gramatica[i+1].equals("→")) {
-				orgGenerators.add(gramatica[i]);
 				//this.generators.put(gramatica[i], gramatica[i]);
 				this.genOrder.add( gramatica[i]);
 			}
@@ -71,11 +72,8 @@ public class Analizador {
 		//Pasos para chomsky:
 		inutiles();
 		conexiones();
-		punitarias();
-		chomsky(orgGenerators); 
 
 	}
-
 
 	public void inutiles() {
 		ArrayList<String> N1 = new ArrayList<String>(); // N1 = ÃƒÆ’Ã‚Â¸
@@ -200,7 +198,11 @@ public class Analizador {
 			}
 		}
 
+
 		System.out.println(this.grammar.toString());
+
+
+
 
 	}
 
@@ -233,94 +235,12 @@ public class Analizador {
 
 		}
 	}
-	
-	public void punitarias() { //producciones unitarias
-
-		for (int i = 0; i < this.genOrder.size(); i++) {
-			for (int j = 0; j < this.grammar.get(this.genOrder.get(i)).size(); j++) {
-				String[] expre =  this.grammar.get(this.genOrder.get(i)).get(j).split(""); // hacer lista de cada elemento de una expresion generada
-				if(expre.length == 1 && Character.isUpperCase(expre[0].charAt(0))) { // si solo es uno y es mayuscula
-					if(this.grammar.get(expre[0]).size() == 1 && Character.isLowerCase(this.grammar.get(expre[0]).get(0).charAt(0))) {
-						System.out.println("produccion unitaria: ");
-						this.grammar.get(this.genOrder.get(i)).add(this.grammar.get(expre[0]).get(0));
-						System.out.println("se ha removido: " + this.grammar.get(this.genOrder.get(i)).get(j).toString()); 
-						this.grammar.get(this.genOrder.get(i)).remove(j);
-						
-					}
-				}
-			}
-		}
-		System.out.println(this.grammar.toString());
-		conexiones();
-	}
-	
-	private void chomsky(HashSet<String> orgGenerators) {
-		HashSet<String> letras = new HashSet<String>();
-		abc(letras, this.genOrder.size());
-		
-		Hashtable<String, String> newGene = new Hashtable<String, String>(); //para reutilizar generadores K - valor del generador V - llave del generador
-		
-		for (int i = 0; i < this.genOrder.size(); i++) {
-			for (int j = 0; j < this.grammar.get(this.genOrder.get(i)).size(); j++) {
-				String[] expre =  this.grammar.get(this.genOrder.get(i)).get(j).split(""); // hacer lista de cada elemento de una expresion generada
-				if(expre.length == 1) {
-					
-				}else {
-					for (int k = 0; k < expre.length; k++) {
-						if(Character.isLowerCase(expre[k].charAt(0))) {
-							if(!newGene.containsKey(expre[k])) {
-								String genName = "";
-								for (String posible : letras) { //genera una letra para el nuevo generador
-									if(!orgGenerators.contains(posible)) {
-										genName = posible;
-										orgGenerators.add(posible);
-									}
-								}
-								//agregar el generador y cambiarlo en la expresion
-								String newExpr = "";
-								for (int l = 0; l < expre.length; l++) {
-									if(l != k) {
-										newExpr = newExpr + expre[l];
-									}else {
-										newExpr = newExpr + genName;
-									}
-								}
-								//this.grammar.get(this.genOrder.get(i)) = newExpr;
-								this.grammar.get(this.genOrder.get(i)).remove(j);
-								this.grammar.get(this.genOrder.get(i)).add(newExpr);
-								System.out.println(newExpr);
-								ArrayList<String> temp = new ArrayList<String>();
-								temp.add(expre[k]);
-								this.grammar.put(genName, temp);
-								System.out.println(this.grammar);
-							}
-						}
-					}
-				}
-
-			}
-		}
-	}
-	
-	public void abc(HashSet<String> abc, int gNum) {
-		if(gNum < 15) { // si la cantidad de generadores es menor a la mitad de las letras en un abecedario
-			for (char ch = 'A'; ch <= 'Z'; ++ch) {
-				abc.add(String.valueOf(ch));
-			}
-		}else {
-			for (char ch = 'A'; ch <= 'Z'; ++ch) {
-				abc.add(String.valueOf(ch));
-				abc.add(String.valueOf(ch) + "" + String.valueOf(ch));
-			}
-		}
-		//System.out.println(abc.toString());
-	}
-
 
 	public void imprimeConexiones() {
 		//imprimir las conexiones del nodo
 		System.out.println("conexiones: " );
 		for (int i = 0; i < this.genOrder.size(); i++) {
+			//System.out.println(this.genOrder.get(i) + " " + this.conexiones.get(this.genOrder.get(i)).getConexiones().toString());
 			System.out.println(this.conexiones.get(this.genOrder.get(i)).nToString());
 		}
 		System.out.println();

@@ -286,8 +286,6 @@ public class Analizador {
 									}
 								}
 								//this.grammar.get(this.genOrder.get(i)) = newExpr;
-								this.grammar.get(this.genOrder.get(i)).remove(j);
-								this.grammar.get(this.genOrder.get(i)).add(newExpr);
 								System.out.println(newExpr);
 								ArrayList<String> temp = new ArrayList<String>();
 								temp.add(expre[k]);
