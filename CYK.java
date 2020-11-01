@@ -57,18 +57,75 @@ public class CYK {
 		
 		//cyk
 		int i = 0;
-		int j = 0;
-		while(this.table[this.tableSize -1][this.tableSize -1] == null) {
-			this.table[i][j] = "A";
-			i ++;
-			j++;
+		int j = 1;
+		int bi = 1; //buscar en i
+		int bj = 0; //buscar en j
+		int startj = 1;
+		int maxi = this.tableSize -startj -1;
+		
+		while(!this.table[this.tableSize -1][this.tableSize -1].equals("-")) {
+			ArrayList<String> find = new ArrayList<String>();
+			String found = "";
+			
+			while(bj<j) {
+				String searchi = this.table[i][bj];
+				//System.out.println("bi " + bi + " bj " + bj);
+				String searchj = this.table[bi][j];
+				
+				if(!find.contains(findGenerators(searchi + searchj))) {
+					//System.out.println(findGenerators(searchi + searchj));
+
+					find.add(findGenerators(searchi + searchj));
+				}
+				bj ++;
+				bi ++;	
+			}
+			
+			for (int k = 0; k < find.size(); k++) {
+				if(find.get(k).equals("Ø")) {
+					if(find.size() == 1) {
+						found = found + find.get(k);
+					}
+				}else {
+					found = found + find.get(k);
+				}
+				
+			}
+			
+			this.table[i][j] = found;
+			found = "";
+			find.clear();
+			
+			System.out.println("i " + i + " maxi " + maxi);
+			if(i == maxi) {
+				System.out.println("equina");
+				startj++;
+				maxi --;
+				i = 0;
+				j = startj;
+				bi = 1; 
+				bj = 0; 
+				
+			}else {
+				i++;
+				j++;				
+			}
+				
+			
+			System.out.println();
+			System.out.println(i == maxi);
+			for (int k = 0; k < table.length; k++) {
+				System.out.println(Arrays.toString(this.table[k]));
+			}
+			
+
 		}
 		
 		//imprimir tabla
 		for (int k = 0; k < table.length; k++) {
 			System.out.println(Arrays.toString(this.table[k]));
 		}
-		System.out.println(findGenerators("AA"));
+		//System.out.println(findGenerators("AA"));
 		
 	}
 	
