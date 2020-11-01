@@ -1,0 +1,162 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Hashtable;
+
+public class CYK {
+	public Analizador analizar;
+	public ArrayList<String> genOrder;
+	
+	public Hashtable<String, ArrayList<String>> CYKgrammar;
+	public ArrayList<String> gramOrd;
+	public String cadena;
+	public int tableSize;
+	public String[][] table; //tabla donde se agregan los valores
+	public TreeNode[][] tablaN; //tabla donde se ponen los nodos para el arbol
+	
+	
+	public CYK(Analizador a, String cadena) {
+		this.analizar = a;
+		this.genOrder = a.genOrder;
+		
+		CYKgrammar = a.grammar;
+		this.cadena = cadena;
+		this.tableSize = cadena.length();
+
+		this.table = new String[this.tableSize][this.tableSize];
+		this.tablaN = new TreeNode[this.tableSize][this.tableSize];
+		
+		for (int i = 0; i < table.length; i++) {
+			this.table[0][i] = "-";
+		}
+
+		int j = 0;
+		for (int i = 1; i < table.length; i++) {
+			while(j < this.tableSize) {
+				this.table[i ][j] = "-";
+				j++;
+			}
+			j = 0;
+			while(j <= i) {
+				this.table[i][j] = " ";
+				j++;
+			}
+			j = 0;
+		}
+		
+		analizer();
+	}
+	
+	public void analizer() {
+		for (int i = 0; i < table.length; i++) { //poner orillas del arbol
+			this.table[i][i] = findGenerators(Character.toString(this.cadena.charAt(i)));
+			this.tablaN[i][i] = new TreeNode(null, null, this.table[i][i]); // 
+			imprimeTablaN();
+			
+		}
+		
+		//CYK
+		int i = 0;
+		int j = 1;
+		
+		int bi = 1; // buscar en i
+		int bj = 0; // buscar en j
+		
+		int startj = 1; //donde comienza la diagonal
+		
+		while(startj < this.tableSize) {
+			ArrayList<String> find = new ArrayList<String>();
+			String found = "";
+			TreeNode nodoi;
+			TreeNode nodoj;
+			while(bj < j) { //busqueda de generadores en la tabla
+				String searchi = this.table[i][bj];
+				String searchj = this.table[bi][j];
+				
+				if(!find.contains(findGenerators(searchi + searchj))) {
+					find.add(findGenerators(searchi + searchj));
+					nodoi = this.tablaN[i][bj];
+					nodoj = this.tablaN[bi][j];
+				}
+				bj++;
+				bi++;
+			}
+			bj = i;
+			bi = i +1;
+			
+			
+			if(find.size() == 1) {
+				found = found + find.get(0);
+			}else {
+				for (int k = 0; k < find.size(); k++) {
+					if(!find.get(k).equals("Ø")) {
+						found = found + find.get(k);
+					}		
+				}
+			}
+			
+			this.table[i][j] = found;
+			//this.tablaN[i][j] = new TreeNode(nodoi, nodoj, found);
+			found = "";
+			find.clear();
+			
+			if(j == this.table.length -1) {//cuando llega al final de la diagonal vuelve a start diagonal
+				startj ++;
+				i = 0;
+				j = startj;
+				
+				bi = 1;
+				bj = 0;
+				
+			}else {
+				i++;
+				j++;
+			}
+		}
+		System.out.println();
+		imprimeTabla();
+		if(this.table[0][this.tableSize -1].equals("S")) {
+			System.out.println("La cadena " + this.cadena + " pertenece a la gramatica");
+		}else {
+			System.out.println("La cadena " + this.cadena + " NO pertenece a la gramatica");
+		}
+		
+		
+	}
+	
+	public String findGenerators(String expr) {
+		String symbol = "";
+		for(int i = 0; i < this.genOrder.size(); i++) { //cada generador
+			if(this.CYKgrammar.get(this.genOrder.get(i)).contains(expr)) {
+				symbol = symbol + this.genOrder.get(i);
+			}
+		  }
+		if(symbol.isEmpty()) {
+			symbol = "Ø";
+		}
+		return symbol;
+	}
+	
+	public void imprimeTabla() {
+		for (int k = 0; k < table.length; k++) {
+			System.out.println(Arrays.toString(this.table[k]));
+		}
+	}
+	public void imprimeTablaN() {
+		for (int k = 0; k < table.length; k++) {
+			for (int i = 0; i < tablaN.length; i++) {
+				System.out.print((this.tablaN[k][i]) + " ");
+			}
+			System.out.println();
+		}
+	}
+
+
+	public static void main(String[] args) {
+		Analizador a = new Analizador("S→AB|SS|AC|BD|BA A→a B→b C→SB D→SA");
+		System.out.println(a.grammar.toString());
+		String pruebaCadena =  "aabbab";
+		CYK b = new CYK(a, pruebaCadena);
+		
+	}
+
+}

@@ -2,10 +2,12 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="conexiones" key="selection"/>
+		<item value="String" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="d"/>
+			<item value="main"/>
 			<item value="34 "/>
 			<item value="eliminarConexiones"/>
 			<item value="â†’"/>

@@ -49,7 +49,9 @@ public class CYK {
 	public void analizer() {
 		for (int i = 0; i < table.length; i++) { //poner orillas del arbol
 			this.table[i][i] = findGenerators(Character.toString(this.cadena.charAt(i)));
-			this.tablaN[i][i] = new TreeNode(null, null, this.table[i][i]); // 
+			this.tablaN[i][i] = new TreeNode<>(null, null, this.table[i][i]); // 
+			this.tablaN[i][i].left = new TreeNode<>(null, null, Character.toString(this.cadena.charAt(i)));
+			imprimeTablaN();
 			
 		}
 		
@@ -61,24 +63,28 @@ public class CYK {
 		int bj = 0; // buscar en j
 		
 		int startj = 1; //donde comienza la diagonal
-		int maxi = this.tableSize - startj - 1; //donde acaba la diagonal
 		
 		while(startj < this.tableSize) {
 			ArrayList<String> find = new ArrayList<String>();
 			String found = "";
-			TreeNode nodoi;
-			TreeNode nodoj;
+			TreeNode nodoi = null;
+			TreeNode nodoj = null;
 			while(bj < j) { //busqueda de generadores en la tabla
 				String searchi = this.table[i][bj];
 				String searchj = this.table[bi][j];
-				
-				if(!find.contains(findGenerators(searchi + searchj))) {
-					find.add(findGenerators(searchi + searchj));
-					nodoi = this.tablaN[i][bj];
-					nodoj = this.tablaN[bi][j];
+				String encuentraG = findGenerators(searchi + searchj);
+				if(!find.contains(encuentraG)) {
+					find.add(encuentraG);
+					if(!encuentraG.equals("Ø")) {
+						nodoi = this.tablaN[i][bj];
+						nodoj = this.tablaN[bi][j];
+						
+						this.tablaN[i][j] = new TreeNode<String>(nodoi, nodoj, encuentraG);
+					}	
 				}
 				bj++;
 				bi++;
+				imprimeTablaN();
 			}
 			bj = i;
 			bi = i +1;
@@ -116,6 +122,7 @@ public class CYK {
 		imprimeTabla();
 		if(this.table[0][this.tableSize -1].equals("S")) {
 			System.out.println("La cadena " + this.cadena + " pertenece a la gramatica");
+			imprimeArbol(this.tablaN[0][this.tableSize -1]);
 		}else {
 			System.out.println("La cadena " + this.cadena + " NO pertenece a la gramatica");
 		}
@@ -136,10 +143,27 @@ public class CYK {
 		return symbol;
 	}
 	
+	public void imprimeArbol(TreeNode<String> raiz) {
+		BTreePrinter.printNode(raiz);
+	}
+	
 	public void imprimeTabla() {
 		for (int k = 0; k < table.length; k++) {
 			System.out.println(Arrays.toString(this.table[k]));
 		}
+	}
+	public void imprimeTablaN() {
+		for (int k = 0; k < table.length; k++) {
+			for (int i = 0; i < tablaN.length; i++) {
+				if((this.tablaN[k][i]) != null) {
+					System.out.print("| " + (this.tablaN[k][i]).getData() + " |");
+				}else {
+					System.out.print("| - |");
+				}
+			}
+			System.out.println();
+		}
+		System.out.println();
 	}
 
 
