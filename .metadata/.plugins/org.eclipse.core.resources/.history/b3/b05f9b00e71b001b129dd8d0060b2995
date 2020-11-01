@@ -1,0 +1,16 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Hashtable;
+
+public class CYK {
+	public Hashtable<String, ArrayList<String>> CYKgrammar;
+	
+	public static void main(String[] args) {
+		Analizador a = new Analizador("S→AB|SS|AC|BD|BA A→a B→b C→SB D→SA");
+		System.out.println(a.grammar.toString());
+		//Hashtable<String, ArrayList<String>> prueba = A;
+		//prueba.put("S", new ArrayList<String>(Arrays.asList("AB|SS|AC|BD|BA")));
+		
+	}
+
+}

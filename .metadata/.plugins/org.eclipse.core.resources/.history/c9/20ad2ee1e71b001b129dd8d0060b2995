@@ -1,0 +1,27 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Hashtable;
+
+public class CYK {
+	public Hashtable<String, ArrayList<String>> CYKgrammar;
+	public ArrayList<String> gramOrd;
+	public String cadena;
+	
+	
+	public CYK(Hashtable<String, ArrayList<String>> cYKgrammar, String cadena) {
+		CYKgrammar = cYKgrammar;
+		System.out.println("CYK " + this.CYKgrammar.toString());
+		this.cadena = cadena;
+		
+	}
+
+
+	public static void main(String[] args) {
+		Analizador a = new Analizador("S→AB|SS|AC|BD|BA A→a B→b C→SB D→SA");
+		System.out.println(a.grammar.toString());
+		String pruebaCadena =  "aabbab";
+		CYK b = new CYK(a.grammar, pruebaCadena);
+		
+	}
+
+}
