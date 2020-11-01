@@ -49,11 +49,11 @@ public class CYK {
 	public void analizer() {
 		for (int i = 0; i < table.length; i++) { //poner orillas del arbol
 			this.table[i][i] = findGenerators(Character.toString(this.cadena.charAt(i)));
-			this.tablaN[i][i] = new TreeNode(null, null, this.table[i][i]); // 
+			this.tablaN[i][i] = new TreeNode(null, null, this.table[i][i]);
 			
 		}
 		
-		//CYK
+		//cyk
 		int i = 0;
 		int j = 1;
 		
@@ -66,16 +66,13 @@ public class CYK {
 		while(startj < this.tableSize) {
 			ArrayList<String> find = new ArrayList<String>();
 			String found = "";
-			TreeNode nodoi;
-			TreeNode nodoj;
+			
 			while(bj < j) { //busqueda de generadores en la tabla
 				String searchi = this.table[i][bj];
 				String searchj = this.table[bi][j];
 				
 				if(!find.contains(findGenerators(searchi + searchj))) {
 					find.add(findGenerators(searchi + searchj));
-					nodoi = this.tablaN[i][bj];
-					nodoj = this.tablaN[bi][j];
 				}
 				bj++;
 				bi++;
@@ -95,7 +92,6 @@ public class CYK {
 			}
 			
 			this.table[i][j] = found;
-			//this.tablaN[i][j] = new TreeNode(nodoi, nodoj, found);
 			found = "";
 			find.clear();
 			

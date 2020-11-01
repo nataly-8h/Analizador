@@ -95,7 +95,7 @@ public class CYK {
 			}
 			
 			this.table[i][j] = found;
-			//this.tablaN[i][j] = new TreeNode(nodoi, nodoj, found);
+			this.tablaN[i][j] = new TreeNode(nodoi, right, data)
 			found = "";
 			find.clear();
 			

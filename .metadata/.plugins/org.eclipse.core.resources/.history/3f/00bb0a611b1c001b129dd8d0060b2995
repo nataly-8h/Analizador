@@ -1,0 +1,15 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+class TreeNode {
+    Node<String> left, right;
+    String data;
+    
+	public TreeNode(Node<String> left, Node<String> right, String data) {
+		this.left = left;
+		this.right = right;
+		this.data = data;
+	}
+
+    
+}

@@ -10,8 +10,7 @@ public class CYK {
 	public ArrayList<String> gramOrd;
 	public String cadena;
 	public int tableSize;
-	public String[][] table; //tabla donde se agregan los valores
-	public TreeNode[][] tablaN; //tabla donde se ponen los nodos para el arbol
+	public String[][] table; //tabla donde se agregan los numeros
 	
 	
 	public CYK(Analizador a, String cadena) {
@@ -19,11 +18,16 @@ public class CYK {
 		this.genOrder = a.genOrder;
 		
 		CYKgrammar = a.grammar;
+		System.out.println("CYK " + this.CYKgrammar.toString());
 		this.cadena = cadena;
 		this.tableSize = cadena.length();
-
+		System.out.println(tableSize);
 		this.table = new String[this.tableSize][this.tableSize];
-		this.tablaN = new TreeNode[this.tableSize][this.tableSize];
+		
+//		for (int i = 0; i < table.length; i++) {
+//			System.out.println(Arrays.toString(this.table[i]));
+//		}
+		//System.out.println(this.table[0][0] == null);
 		
 		for (int i = 0; i < table.length; i++) {
 			this.table[0][i] = "-";
@@ -47,13 +51,11 @@ public class CYK {
 	}
 	
 	public void analizer() {
-		for (int i = 0; i < table.length; i++) { //poner orillas del arbol
-			this.table[i][i] = findGenerators(Character.toString(this.cadena.charAt(i)));
-			this.tablaN[i][i] = new TreeNode(null, null, this.table[i][i]); // 
-			
+		for (int m = 0; m < table.length; m++) { //poner orillas del arbol
+			this.table[m][m] = findGenerators(Character.toString(this.cadena.charAt(m)));		
 		}
 		
-		//CYK
+		//cyk
 		int i = 0;
 		int j = 1;
 		
@@ -63,26 +65,20 @@ public class CYK {
 		int startj = 1; //donde comienza la diagonal
 		int maxi = this.tableSize - startj - 1; //donde acaba la diagonal
 		
-		while(startj < this.tableSize) {
+		while(!this.table[this.tableSize -1][this.tableSize -1].equals("-")) {
 			ArrayList<String> find = new ArrayList<String>();
 			String found = "";
-			TreeNode nodoi;
-			TreeNode nodoj;
-			while(bj < j) { //busqueda de generadores en la tabla
+			
+			while(bj < j) {
 				String searchi = this.table[i][bj];
 				String searchj = this.table[bi][j];
 				
 				if(!find.contains(findGenerators(searchi + searchj))) {
 					find.add(findGenerators(searchi + searchj));
-					nodoi = this.tablaN[i][bj];
-					nodoj = this.tablaN[bi][j];
 				}
 				bj++;
 				bi++;
 			}
-			bj = i;
-			bi = i +1;
-			
 			
 			if(find.size() == 1) {
 				found = found + find.get(0);
@@ -93,13 +89,14 @@ public class CYK {
 					}		
 				}
 			}
+			System.out.println(find.toString());
+			System.out.println("found: " + found);
 			
 			this.table[i][j] = found;
-			//this.tablaN[i][j] = new TreeNode(nodoi, nodoj, found);
 			found = "";
 			find.clear();
 			
-			if(j == this.table.length -1) {//cuando llega al final de la diagonal vuelve a start diagonal
+			if(i == maxi) {
 				startj ++;
 				i = 0;
 				j = startj;
@@ -111,13 +108,9 @@ public class CYK {
 				i++;
 				j++;
 			}
-		}
-		System.out.println();
-		imprimeTabla();
-		if(this.table[0][this.tableSize -1].equals("S")) {
-			System.out.println("La cadena " + this.cadena + " pertenece a la gramatica");
-		}else {
-			System.out.println("La cadena " + this.cadena + " NO pertenece a la gramatica");
+			
+			System.out.println();
+			imprimeTabla();
 		}
 		
 		
