@@ -8,7 +8,13 @@ public class Nodo {
 	public Nodo(String valor, boolean inicial, ArrayList<Nodo> conexiones) {
 		this.valor = valor;
 		Inicial = inicial;
-		this.conexiones = conexiones;
+		this.conexiones = new ArrayList<Nodo>();
+		for (int i = 0; i < conexiones.size(); i++) {
+			System.out.println("oa");
+			if(!this.conexiones.contains(conexiones.get(i))) {
+				this.conexiones.add(conexiones.get(i));
+			}
+		}
 	}
 	
 
@@ -48,6 +54,14 @@ public class Nodo {
 
 	public ArrayList<Nodo> getConexiones() {
 		return conexiones;
+	}
+	
+	public ArrayList<String> getConexionesString() {
+		ArrayList<String> conexionesS = new ArrayList<String>();
+		for (int i = 0; i < this.conexiones.size(); i++) {
+			conexionesS.add(this.conexiones.get(i).getValor());
+		}
+		return conexionesS;
 	}
 	
 	public void addConexiones(Nodo node) {
