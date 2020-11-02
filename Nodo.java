@@ -10,7 +10,6 @@ public class Nodo {
 		Inicial = inicial;
 		this.conexiones = new ArrayList<Nodo>();
 		for (int i = 0; i < conexiones.size(); i++) {
-			System.out.println("oa");
 			if(!this.conexiones.contains(conexiones.get(i))) {
 				this.conexiones.add(conexiones.get(i));
 			}

@@ -51,11 +51,10 @@ public class CYK {
 			this.table[i][i] = findGenerators(Character.toString(this.cadena.charAt(i)));
 			this.tablaN[i][i] = new TreeNode<>(null, null, this.table[i][i]); // 
 			this.tablaN[i][i].left = new TreeNode<>(null, null, Character.toString(this.cadena.charAt(i)));
+			imprimeTabla();
 			//imprimeTablaN();
 			
 		}
-		
-		imprimeTabla();
 		
 		//CYK
 		int i = 0;
@@ -118,10 +117,10 @@ public class CYK {
 				i++;
 				j++;
 			}
-			//imprimeTabla();
+			imprimeTabla();
 		}
-		//System.out.println();
-		//imprimeTabla();
+		System.out.println();
+		imprimeTabla();
 		if(this.table[0][this.tableSize -1].equals("S")) {
 			System.out.println("La cadena " + this.cadena + " pertenece a la gramatica");
 			imprimeArbol(this.tablaN[0][this.tableSize -1]);
@@ -170,7 +169,7 @@ public class CYK {
 
 
 	public static void main(String[] args) {
-		String cadenaA =  "aacbab";
+		String cadenaA =  "aabbab";
 		CYK prueba = new CYK("S→AB|SS|AC|BD|BA A→a B→b C→SB D→SA", cadenaA);
 	}
 

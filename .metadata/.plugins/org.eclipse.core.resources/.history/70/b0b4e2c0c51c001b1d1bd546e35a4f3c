@@ -118,10 +118,10 @@ public class CYK {
 				i++;
 				j++;
 			}
-			//imprimeTabla();
+			imprimeTabla();
 		}
-		//System.out.println();
-		//imprimeTabla();
+		System.out.println();
+		imprimeTabla();
 		if(this.table[0][this.tableSize -1].equals("S")) {
 			System.out.println("La cadena " + this.cadena + " pertenece a la gramatica");
 			imprimeArbol(this.tablaN[0][this.tableSize -1]);

@@ -2,32 +2,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-// Binary tree from Michal.kreuzman
+// Binary tree de Michal.kreuzman
 // https://stackoverflow.com/questions/4965335/how-to-print-binary-tree-diagram/8948691 
 
 public class BTreePrinterTest {
-
-//    private static TreeNode<String> test1() {
-//        TreeNode<String> root = new TreeNode<String>("S");
-//        TreeNode<String> n11 = new TreeNode<String>("B");
-//        TreeNode<String> n12 = new TreeNode<String>("D");
-//        TreeNode<String> n21 = new TreeNode<String>("F");
-//
-//
-//        root.left = n11;
-//        root.right = n12;
-//
-//        n11.left = n21;
-//
-//
-//
-//        return root;
-//    }
-
     public static void main(String[] args) {
-
-        //BTreePrinter.printNode(test1());
-       // BTreePrinter.printNode(test2());
 
     }
 }

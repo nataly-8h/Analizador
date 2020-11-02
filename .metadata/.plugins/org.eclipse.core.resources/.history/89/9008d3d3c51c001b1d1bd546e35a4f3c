@@ -118,7 +118,7 @@ public class CYK {
 				i++;
 				j++;
 			}
-			//imprimeTabla();
+			imprimeTabla();
 		}
 		//System.out.println();
 		//imprimeTabla();
